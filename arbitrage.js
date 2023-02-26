@@ -82,7 +82,7 @@ const getPairs = async () => {
     });
   });
   log(
-    `Finished identifying Arbitrage Paths. Total symbols = ${symbols.length}. Total paths = ${pairs.length}`
+    `Finished identifying all the paths. Total symbols = ${symbols.length}. Total paths = ${pairs.length}`
   );
 };
 
@@ -215,6 +215,7 @@ const wsconnect = () => {
 
   subs = Object.keys(symValJ).map((d) => `bookticker.${d}`);
   ws.on("open", async () => {
+    console.log("Establishing all the required websocket connections.");
     const chunkSize = 10;
     const argChunks = subs
       .map((d, i, arr) => (i % chunkSize ? "" : arr.slice(i, i + chunkSize)))
@@ -235,6 +236,9 @@ const wsconnect = () => {
       console.log(`${clen} more connections to go...`);
     } while (true);
     console.log("all connections established.");
+    console.log(
+      "Open http://127.0.0.1:3000/ in the browser to access the tool."
+    );
   });
   ws.on("error", log);
   ws.on("message", processData);
